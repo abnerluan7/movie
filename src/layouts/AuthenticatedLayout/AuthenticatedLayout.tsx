@@ -1,6 +1,10 @@
 import React from 'react'
 
+import { Loading } from '@/components'
+
 import { useMovies } from '@/hooks/useMovies'
+
+import { Container } from './styles'
 
 type Props = {
   children: React.ReactNode
@@ -9,10 +13,10 @@ type Props = {
 const AuthenticatedLayout = ({ children }: Props) => {
   const { isLoading } = useMovies()
   return (
-    <div>
-      {isLoading && <p>loading...</p>}
+    <Container>
+      {isLoading && <Loading />}
       {!isLoading && <div>{children}</div>}
-    </div>
+    </Container>
   )
 }
 

@@ -1,10 +1,4 @@
-import {
-  createContext,
-  Dispatch,
-  SetStateAction,
-  useContext,
-  useState
-} from 'react'
+import { createContext, useContext, useEffect, useState } from 'react'
 import {
   QueryObserverResult,
   RefetchOptions,
@@ -25,12 +19,18 @@ interface TypesThisContext {
     options?: RefetchOptions & RefetchQueryFilters<TPageData>
   ) => Promise<QueryObserverResult<HttpResponse<IMovies[], any>, unknown>>
   isSuccess: boolean
-  movie: IMovies | undefined
-  setMovie: Dispatch<SetStateAction<IMovies>>
+  addMoreItems: () => void
+  setSearch: React.Dispatch<React.SetStateAction<string>>
 }
 
 export interface MyProps {
   children?: React.ReactNode
+}
+
+function getInitialSize(): number {
+  return (
+    Math.ceil(window.innerWidth / 305) * Math.ceil(window.innerHeight / 220)
+  )
 }
 
 const MoviesContext = createContext<TypesThisContext>({} as TypesThisContext)
@@ -38,9 +38,17 @@ const MoviesContext = createContext<TypesThisContext>({} as TypesThisContext)
 export const MoviesProvider: React.FC<MyProps> = ({ children }) => {
   const { isLoading, data, refetch, isSuccess } = useQuery<
     HttpResponse<IMovies[]>
-  >(keys.MOVIE_LIST, getAllMovies)
+  >(keys.MOVIE_LIST, async () => getAllMovies({ size, search }))
+  const [size, setSize] = useState<number>(getInitialSize())
+  const [search, setSearch] = useState<string>('')
 
-  const [movie, setMovie] = useState<IMovies | undefined>(undefined)
+  const addMoreItems = (): void => {
+    setSize((prevSize) => prevSize + getInitialSize())
+  }
+
+  useEffect(() => {
+    refetch()
+  }, [size])
 
   return (
     <MoviesContext.Provider
@@ -49,8 +57,8 @@ export const MoviesProvider: React.FC<MyProps> = ({ children }) => {
         movies: data,
         refetch,
         isSuccess,
-        movie,
-        setMovie
+        addMoreItems,
+        setSearch
       }}
     >
       {children}

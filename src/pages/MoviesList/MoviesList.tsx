@@ -1,23 +1,31 @@
-import { IMovies } from '@/types/Movies'
+import { useEffect } from 'react'
+
+import { ContainerCard, Card } from '@/components'
 
 import { useMovies } from '@/hooks/useMovies'
 
 const MoviesList: React.FC = () => {
-  const { movies, setMovie } = useMovies()
+  const { movies, addMoreItems } = useMovies()
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
-  const showMovie = (movie: IMovies) => {
-    setMovie(movie)
+  const handleScroll = () => {
+    if (
+      window.innerHeight + document.documentElement.scrollTop + 1 >=
+      document.documentElement.scrollHeight
+    ) {
+      addMoreItems()
+    }
   }
 
   return (
-    <div>
+    <ContainerCard>
       {movies.data.map((movie) => (
-        <button key={movie.id} onClick={() => showMovie(movie)}>
-          {movie.title}
-        </button>
+        <Card key={movie.id} movie={movie} />
       ))}
-      <p>Movie List</p>
-    </div>
+    </ContainerCard>
   )
 }
 
