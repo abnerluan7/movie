@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 
-import { ContainerCard, Card } from '@/components'
+import { ContainerCard, Card, Search } from '@/components'
 
 import { useMovies } from '@/hooks/useMovies'
 
@@ -21,7 +21,7 @@ const MoviesList: React.FC = () => {
   }
 
   return (
-    <ContainerCard>
+    <ContainerCard Search={Search}>
       {movies.data.map((movie) => (
         <Card key={movie.id} movie={movie} />
       ))}

@@ -3,10 +3,24 @@ import styled from 'styled-components'
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 56px;
+  margin: 0;
+  margin-left: 56px;
   margin-top: 16px;
+  width: 92vw;
   @media (max-width: 1000px) {
     align-items: center;
+    width: 100vw;
+  }
+`
+
+export const CardHeader = styled.div`
+  display: flex;
+  margin: 0;
+  justify-content: space-between;
+  align-items: center;
+  @media (max-width: 1000px) {
+    flex-direction: column;
+    margin-bottom: 32px;
   }
 `
 

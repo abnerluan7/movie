@@ -27,10 +27,10 @@ export interface MyProps {
   children?: React.ReactNode
 }
 
-function getInitialSize(): number {
-  return (
+export function getInitialSize(): number {
+  const sizeList =
     Math.ceil(window.innerWidth / 305) * Math.ceil(window.innerHeight / 220)
-  )
+  return sizeList < 20 ? 20 : sizeList
 }
 
 const MoviesContext = createContext<TypesThisContext>({} as TypesThisContext)
@@ -48,7 +48,7 @@ export const MoviesProvider: React.FC<MyProps> = ({ children }) => {
 
   useEffect(() => {
     refetch()
-  }, [size])
+  }, [size, search])
 
   return (
     <MoviesContext.Provider

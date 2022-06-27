@@ -1,3 +1,4 @@
 import { ContainerCard, Card } from './card/card'
 import { Loading } from './loading/loading'
-export { ContainerCard, Card, Loading }
+import { Search } from './search/search'
+export { ContainerCard, Card, Loading, Search }

@@ -8,17 +8,22 @@ import {
   Meta,
   Entities,
   Item,
-  Image
+  Image,
+  CardHeader
 } from './card-styles'
 
 type Props = {
   children: React.ReactNode
+  Search: React.FC
 }
 
-export const ContainerCard = ({ children }: Props) => {
+export const ContainerCard = ({ children, Search }: Props) => {
   return (
     <Container>
-      <Title>Movies</Title>
+      <CardHeader>
+        <Title>Movies</Title>
+        <Search />
+      </CardHeader>
       <Entities>{children}</Entities>
     </Container>
   )
@@ -33,8 +38,12 @@ export const Card = ({ movie }: PropsCard) => {
     <Item>
       <Image src={movie.coverImage} />
       <Meta>
-        <SubTitle>{movie.title}</SubTitle>
-        <Text>{movie.description}</Text>
+        <SubTitle>
+          {movie.title} - {movie.year}
+        </SubTitle>
+        <Text>
+          {movie.description} - {movie.director}
+        </Text>
       </Meta>
     </Item>
   )
